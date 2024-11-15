@@ -1,0 +1,910 @@
+{
+	"info": {
+		"_postman_id": "f73e0803-e71f-49dc-ba64-9ba5cb98e744",
+		"name": "API Test Jira Cloud Expro",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37339153",
+		"_collection_link": "https://expro-team.postman.co/workspace/2ed00336-b721-4daf-8cad-3b6f0fa8695d/collection/37339153-f73e0803-e71f-49dc-ba64-9ba5cb98e744?action=share&source=collection_link&creator=37339153"
+	},
+	"item": [
+		{
+			"name": "401 Unauth",
+			"item": []
+		},
+		{
+			"name": "End to End API  Testing",
+			"item": [
+				{
+					"name": "Create issue Task in existing Project",
+					"item": [
+						{
+							"name": "GetProjects",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"console.clear();\r",
+											"\r",
+											"// = = = = = Refined JS = = = = = = =\r",
+											"const response = pm.response.json();\r",
+											"console.log(response);\r",
+											"let projectDetails = response.values;\r",
+											"let desiredValues = projectDetails.map((value) => value.name);\r",
+											"pm.collectionVariables.set ('projectId', projectDetails[desiredValues.indexOf('My Kanban Project')].id);\r",
+											"pm.collectionVariables.set ('projectKey', projectDetails[desiredValues.indexOf('My Kanban Project')].key);\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{username}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{jiratoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://exprofesso.atlassian.net/rest/api/3/project/search?maxResults=1",
+									"protocol": "https",
+									"host": [
+										"exprofesso",
+										"atlassian",
+										"net"
+									],
+									"path": [
+										"rest",
+										"api",
+										"3",
+										"project",
+										"search"
+									],
+									"query": [
+										{
+											"key": "maxResults",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All issue types for projects",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"console.clear();\r",
+											"// = = = = = Refined JS = = = = = = =\r",
+											"const response = pm.response.json();\r",
+											"console.log(response);\r",
+											"let desiredValues = response.map((value) => value.name)\r",
+											"pm.collectionVariables.set('issueId', response[desiredValues.indexOf('Task')].id);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{username}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{jiratoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://exprofesso.atlassian.net/rest/api/3/issuetype/project?projectId=10000&projectKeys",
+									"protocol": "http",
+									"host": [
+										"exprofesso",
+										"atlassian",
+										"net"
+									],
+									"path": [
+										"rest",
+										"api",
+										"3",
+										"issuetype",
+										"project"
+									],
+									"query": [
+										{
+											"key": "projectId",
+											"value": "10000"
+										},
+										{
+											"key": "projectKeys",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Users assignable to projects",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"console.clear();\r",
+											"\r",
+											"// = = = = = Refined JS = = = = = = =\r",
+											"const response = pm.response.json();\r",
+											"console.log(response);\r",
+											"let desiredValues = response.map((value) => value.displayName);\r",
+											"pm.collectionVariables.set('accountId', response[desiredValues.indexOf('Konstantin Bretchkin')].accountId);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{jiratoken}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{username}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://exprofesso.atlassian.net/rest/api/3/user/assignable/multiProjectSearch?projectKeys=KAN",
+									"protocol": "https",
+									"host": [
+										"exprofesso",
+										"atlassian",
+										"net"
+									],
+									"path": [
+										"rest",
+										"api",
+										"3",
+										"user",
+										"assignable",
+										"multiProjectSearch"
+									],
+									"query": [
+										{
+											"key": "projectKeys",
+											"value": "KAN"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Issue type Task",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.collectionVariables.set(\"createdIssueKey\", response.id)\r",
+											"\r",
+											"pm.test(\"Status code is 201 and success\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"    pm.response.to.be.success;\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var title = pm.collectionVariables.replaceIn(\"{{$randomPhrase}}\");\r",
+											"pm.collectionVariables.set(\"issueTitle\", title);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "kbretchkin@gmail.com",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "ATATT3xFfGF0UrO_UQ2pDRG3h1drQ6U3kttDdrceGGoofoF544QMtGieWiew6y2AjaPUrjKshx0gSmD1TBRsip2ax9NmqFnw9eiJYx5DkY8ZidWEuXrZrmn4Jou3rQgD_W-GGZymECgAwi5NjPThP6uvaMcGlZy-8O4ZIGsmDvGmuutfJj69E78=05D35263",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " \r\n {\r\n    \"fields\": {\r\n        \"project\": {\r\n            \"id\": \"{{projectId}}\"\r\n        },\r\n        \"reporter\": {\r\n            \"id\": \"{{accountId}}\"\r\n        },\r\n        \"issuetype\":  {\r\n            \"id\": \"{{issueId}}\"\r\n        },\r\n        \"summary\": \"{{issueTitle}}\"\r\n    },\r\n    \"update\": {}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{hostname}}/rest/api/3/issue",
+									"host": [
+										"{{hostname}}"
+									],
+									"path": [
+										"rest",
+										"api",
+										"3",
+										"issue"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get issue",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"console.clear();\r",
+											"\r",
+											"const response = pm.response.json();\r",
+											"console.log(response);\r",
+											"console.log(response.fields.summary);\r",
+											"\r",
+											"pm.test(\"Summary match\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(response.fields.summary).to.eql(pm.collectionVariables.get(\"issueTitle\"));\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{jiratoken}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{username}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{hostname}}/rest/api/3/issue/{{createdIssueKey}}",
+									"host": [
+										"{{hostname}}"
+									],
+									"path": [
+										"rest",
+										"api",
+										"3",
+										"issue",
+										"{{createdIssueKey}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Create issue Task DataDriver-JSON",
+					"item": [
+						{
+							"name": "GetProjects",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"console.clear();\r",
+											"\r",
+											"// = = = = = Refined JS = = = = = = =\r",
+											"const response = pm.response.json();\r",
+											"console.log(response);\r",
+											"let projectDetails = response.values;\r",
+											"let desiredValues = projectDetails.map((value) => value.name);\r",
+											"pm.collectionVariables.set ('projectId', projectDetails[desiredValues.indexOf('My Kanban Project')].id);\r",
+											"pm.collectionVariables.set ('projectKey', projectDetails[desiredValues.indexOf('My Kanban Project')].key);\r",
+											"\r",
+											"// = = = = added update = = = = \r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{username}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{jiratoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://exprofesso.atlassian.net/rest/api/3/project/search?maxResults=1",
+									"protocol": "https",
+									"host": [
+										"exprofesso",
+										"atlassian",
+										"net"
+									],
+									"path": [
+										"rest",
+										"api",
+										"3",
+										"project",
+										"search"
+									],
+									"query": [
+										{
+											"key": "maxResults",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All issue types for projects",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"console.clear();\r",
+											"// = = = = = Refined JS = = = = = = =\r",
+											"const response = pm.response.json();\r",
+											"console.log(response);\r",
+											"let desiredValues = response.map((value) => value.name)\r",
+											"pm.collectionVariables.set('issueId', response[desiredValues.indexOf('Task')].id);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{username}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{jiratoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://exprofesso.atlassian.net/rest/api/3/issuetype/project?projectId=10000&projectKeys",
+									"protocol": "http",
+									"host": [
+										"exprofesso",
+										"atlassian",
+										"net"
+									],
+									"path": [
+										"rest",
+										"api",
+										"3",
+										"issuetype",
+										"project"
+									],
+									"query": [
+										{
+											"key": "projectId",
+											"value": "10000"
+										},
+										{
+											"key": "projectKeys",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All issue types for projects Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"console.clear();\r",
+											"// = = = = = Refined JS = = = = = = =\r",
+											"const response = pm.response.json();\r",
+											"console.log(response);\r",
+											"let desiredValues = response.map((value) => value.name)\r",
+											"pm.collectionVariables.set('issueId', response[desiredValues.indexOf(pm.iterationData.get(\"issueName\"))].id);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{username}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{jiratoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://exprofesso.atlassian.net/rest/api/3/issuetype/project?projectId=10000&projectKeys",
+									"protocol": "http",
+									"host": [
+										"exprofesso",
+										"atlassian",
+										"net"
+									],
+									"path": [
+										"rest",
+										"api",
+										"3",
+										"issuetype",
+										"project"
+									],
+									"query": [
+										{
+											"key": "projectId",
+											"value": "10000"
+										},
+										{
+											"key": "projectKeys",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Users assignable to projects",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"console.clear();\r",
+											"\r",
+											"// = = = = = Refined JS = = = = = = =\r",
+											"const response = pm.response.json();\r",
+											"console.log(response);\r",
+											"let desiredValues = response.map((value) => value.displayName);\r",
+											"pm.collectionVariables.set('accountId', response[desiredValues.indexOf('Konstantin Bretchkin')].accountId);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{jiratoken}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{username}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://exprofesso.atlassian.net/rest/api/3/user/assignable/multiProjectSearch?projectKeys=KAN",
+									"protocol": "https",
+									"host": [
+										"exprofesso",
+										"atlassian",
+										"net"
+									],
+									"path": [
+										"rest",
+										"api",
+										"3",
+										"user",
+										"assignable",
+										"multiProjectSearch"
+									],
+									"query": [
+										{
+											"key": "projectKeys",
+											"value": "KAN"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Issue type Task",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.collectionVariables.set(\"createdIssueKey\", response.id)\r",
+											"\r",
+											"pm.test(\"Status code is 201 and success\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"    pm.response.to.be.success;\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var title = pm.collectionVariables.replaceIn(\"{{$randomPhrase}}\");\r",
+											"pm.collectionVariables.set(\"issueTitle\", title);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "kbretchkin@gmail.com",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "ATATT3xFfGF0UrO_UQ2pDRG3h1drQ6U3kttDdrceGGoofoF544QMtGieWiew6y2AjaPUrjKshx0gSmD1TBRsip2ax9NmqFnw9eiJYx5DkY8ZidWEuXrZrmn4Jou3rQgD_W-GGZymECgAwi5NjPThP6uvaMcGlZy-8O4ZIGsmDvGmuutfJj69E78=05D35263",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " \r\n {\r\n    \"fields\": {\r\n        \"project\": {\r\n            \"id\": \"{{projectId}}\"\r\n        },\r\n        \"reporter\": {\r\n            \"id\": \"{{accountId}}\"\r\n        },\r\n        \"issuetype\":  {\r\n            \"id\": \"{{issueId}}\"\r\n        },\r\n        \"summary\": \"{{issueTitle}}\"\r\n    },\r\n    \"update\": {}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{hostname}}/rest/api/3/issue",
+									"host": [
+										"{{hostname}}"
+									],
+									"path": [
+										"rest",
+										"api",
+										"3",
+										"issue"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get issue",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"console.clear();\r",
+											"\r",
+											"const response = pm.response.json();\r",
+											"console.log(response);\r",
+											"console.log(response.fields.summary);\r",
+											"\r",
+											"pm.test(\"Summary match\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(response.fields.summary).to.eql(pm.collectionVariables.get(\"issueTitle\"));\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{jiratoken}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{username}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{hostname}}/rest/api/3/issue/{{createdIssueKey}}",
+									"host": [
+										"{{hostname}}"
+									],
+									"path": [
+										"rest",
+										"api",
+										"3",
+										"issue",
+										"{{createdIssueKey}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "issueTypeId2",
+			"value": ""
+		},
+		{
+			"key": "issueTypeIdMap",
+			"value": ""
+		},
+		{
+			"key": "projectIDmap",
+			"value": ""
+		},
+		{
+			"key": "projectId",
+			"value": ""
+		},
+		{
+			"key": "projectKey",
+			"value": ""
+		},
+		{
+			"key": "issueId",
+			"value": ""
+		},
+		{
+			"key": "accountId",
+			"value": ""
+		},
+		{
+			"key": "issueTitle",
+			"value": ""
+		},
+		{
+			"key": "createdIssueKey",
+			"value": ""
+		}
+	]
+}
